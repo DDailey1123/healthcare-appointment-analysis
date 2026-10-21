@@ -1,0 +1,4 @@
+PASS: 2,412 raw rows; 12 exact duplicate rows removed; 2,400 unique appointments.
+PASS: 24 unique clinic labels normalized.
+PASS: all IDs unique after cleaning, required fields populated, dates in Jan-Jun 2026, lead times 0-45, allowed statuses and clinics.
+No records excluded other than exact duplicates. No values imputed.
