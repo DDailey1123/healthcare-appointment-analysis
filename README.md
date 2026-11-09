@@ -1,48 +1,65 @@
-# Healthcare Appointment Attendance Analysis
+Healthcare Appointment Attendance Analysis
 
-AI-assisted portfolio case study for Dorothy Dailey. All records are simulated. No real patient or employer data is included. This project has not been implemented at a real organization.
+Author: Dorothy Dailey
 
-## Start here
-Read Dorothy_Dailey_Data_Analyst_Project.pdf, then open Healthcare_Appointment_Dashboard.xlsx. Read analysis.sql alongside the results. Review and reproduce the work before describing it as a skill you can demonstrate.
+Missed appointments cost clinics time and revenue and delay patient care. In my work in patient access and care coordination, I've seen how scheduling decisions can affect whether patients show up. This project looks at how booking lead time, appointment reminders and clinic location relate to no-show rates, and proposes a measurable pilot to look into the issue further.
 
-## Files
-- appointments_raw.csv: 2,412 records including intentional duplicate and formatting issues.
-- appointments_clean.csv: 2,400 unique standardized appointments, plus month and lead_band.
-- analysis.sql: SQLite cleaning view and five summary queries.
-- appointments.sqlite: ready-to-query database with raw table and clean view.
-- build_analysis.py: deterministic source generation, SQL execution and validation. Python 3 standard library only. Run `python build_analysis.py` from the extracted folder.
-- results.json: independently computed SQL summary outputs.
-- quality_checks.txt: executed source checks.
-- Healthcare_Appointment_Dashboard.xlsx: editable formula summaries and two native charts. Fixed source ranges for 2,400 appointments; Python reruns do not refresh this workbook.
-- create_report.py: report builder, requiring reportlab.
-- dashboard_preview.png: dashboard image for a portfolio preview.
+Note: All records in this project are simulated. No real patient or employer data is included.
 
-## Data dictionary
-| Field | Meaning |
-|---|---|
-| appointment_id | Fictional unique appointment identifier; duplicates are exact repeated records |
-| appointment_date | Scheduled date, Jan 1-Jun 30, 2026, ISO text in CSV |
-| clinic | Fictional Central, East or West clinic |
-| lead_days | Days between booking and appointment, integer 0-45 |
-| reminder_sent | Yes/No administrative flag; no delivery/read confirmation |
-| status | Completed, No-show, or Cancelled |
-| month | Derived YYYY-MM reporting key |
-| lead_band | Derived 0-7, 8-21 or 22-45 days |
+Dataset
 
-## Definitions and limits
-No-show rate = No-show / (Completed + No-show). Cancellation rate, if calculated, uses all appointments. There are no unique patient IDs, so patient-level analysis is unavailable. Simulation uses seed 42. Cancellation probability is 10%. Among noncancelled appointments, no-show probability is 0.07 + 0.004*lead_days + 0.07 if no reminder + 0.035 if East clinic. Those design choices create the analyzed associations. This is descriptive analysis, not causal evidence or a predictive model. There is no observed revenue, cost or improvement estimate.
+	•	Raw data: 2,412 appointment records, including duplicates and formatting issues to clean
+	•	Clean data: 2,400 unique appointments scheduled January 1 – June 30, 2026
+	•	Clinics: Central, East and West
+	•	Fields: clinic, lead time in days (0–45), reminder sent (Yes/No), and status (Completed, No-show or Cancelled)
 
-## Practice before an interview
-1. Reproduce 381 no-shows and a denominator of 2,151.
-2. Explain why using 2,400 as the denominator answers a different question.
-3. Compare East and Central using percentage points, not percent change.
-4. Filter a clinic and explain why counts and rates tell different stories.
-5. Add a clinic-by-reminder SQL breakdown to explore confounding.
-6. In a copy of Excel, change a Completed record to No-show. Confirm the counts and rates update, then restore the value.
+Tools
 
-## Suggested resume entry
-Healthcare Appointment Attendance Analysis | Portfolio Project
+	•	SQL (SQLite): a cleaning view plus five summary queries
+	•	Python 3: data generation, running the SQL and validating the results
+	•	Excel: a formula-driven dashboard with charts
+	•	reportlab: a PDF summary report
 
-Analyzed 2,400 simulated appointments using SQL and Excel; cleaned duplicate records, standardized clinic labels, built a formula-driven KPI dashboard, and proposed a measurable pilot to investigate missed appointments.
+Process
 
-List only the steps you have reviewed, reproduced and can explain. Use the PDF as an attachment or place the project files in your portfolio and add that link to your resume.
+	1.	Cleaned the data: removed duplicates and standardized formats with a SQL view, bringing 2,412 raw records down to 2,400 unique appointments.
+	2.	Defined the metric: No-show rate = No-shows ÷ (Completed + No-shows). Cancelled appointments are left out because the patient never had a chance to miss them.
+	3.	Analyzed patterns: compared no-show rates by booking lead time, reminder status and clinic.
+	4.	Validated the results: used Python checks to confirm that the SQL outputs match the clean data (see quality_checks.txt).
+	5.	Reported findings: built an Excel dashboard and a PDF summary.
+
+Results
+
+	•	Overall: 381 no-shows out of 2,151 completed or missed appointments, a no-show rate of about 17.7%.
+	•	Clinic comparisons are reported as differences in percentage points.
+	•	Full query outputs are in results.json, and charts are in the dashboard.
+
+Limitations
+
+	•	The data is simulated, so the patterns show how the analysis works, not real-world effects.
+	•	There are no unique patient IDs, so I couldn't analyze individual patients (for example, patients with repeated no-shows).
+	•	This is a descriptive analysis. It doesn't prove cause and effect, it isn't a predictive model, and it doesn't estimate revenue or cost.
+
+Files
+
+File	Description
+analysis.sql	SQLite cleaning view and summary queries
+appointments.sqlite	Database with the raw table and the clean view
+appointments_raw.csv / appointments_clean.csv	Raw and cleaned data
+build_analysis.py	Rebuilds the data and runs the SQL validation (Python standard library only)
+create_report.py	Builds the PDF report (requires reportlab)
+results.json / quality_checks.txt	Query outputs and data quality checks
+Healthcare_Appointment_Dashboard.xlsx	Excel dashboard (does not update automatically when the Python scripts rerun)
+Dorothy_Dailey_Data_Analyst_Project.pdf	Summary report
+dashboard_preview.png	Dashboard screenshot
+
+How to Run
+
+python3 build_analysis.py   # rebuild the data and run the validation
+pip install reportlab
+python3 create_report.py    # build the PDF report
+
+Next Steps
+
+	•	Repeat the analysis on a real public dataset of appointment no-shows.
+	•	Run a pilot comparing reminder timing (for example, 48 hours vs. 24 hours before the appointment) and track the change in no-show rate.
